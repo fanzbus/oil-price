@@ -6,6 +6,10 @@
 - 解析失败 / 省份不足 31 / 价格越界 -> 直接失败退出，不写脏数据。
 - 每天最多 1 次（由 GitHub Actions 定时触发），UA 明确标识。
 - 预测/汇率上游取不到 -> forecast.json 写 no_data，不编造。
+- 时间字段语义：last_checked_at 每次抓取都更新（即使价格无变化）；
+  last_change_at 仅价格变化时更新；fetched_at/updated_at 兼容保留，与 last_change_at 同值。
+- meta 的 forecast_status + data_quality.forecast 从 forecast 派生（每日任务与每小时
+  forecast 任务都同步），不再写死 no_data。
 """
 import json
 import re
@@ -456,6 +460,21 @@ def try_forecast(provinces=None):
         return base
 
 
+def _forecast_meta_fields(forecast):
+    """从 forecast 字典派生 meta 的 forecast_status + data_quality.forecast 文案。
+
+    status=estimated 即 estimated；否则 no_data + 暂无预测文案。只读字典，不碰网络。
+    每小时 forecast 任务与每日价格任务共用，保证 meta 与 forecast.json 永远一致。"""
+    if isinstance(forecast, dict) and forecast.get("status") == "estimated":
+        est = forecast.get("estimated_adjustment_yuan_per_ton")
+        rng = forecast.get("estimated_adjustment_range") or {}
+        return ("estimated",
+                f"预测已接入：as_of {forecast.get('as_of')}，方向{forecast.get('direction')}，"
+                f"预计调整 {est} 元/吨（区间 {rng.get('low')}~{rng.get('high')}），"
+                f"来源 {forecast.get('oil_source')}。")
+    return ("no_data", "暂无预测数据（待上游公开源可用后自动填充）")
+
+
 def main():
     if "--forecast-only" in sys.argv:
         # 每小时 Action：休市跳过，不写文件、不触发提交；交易时段内只更新 forecast.json
@@ -477,7 +496,19 @@ def main():
         PUBLIC_DATA.mkdir(parents=True, exist_ok=True)
         (DATA / "forecast.json").write_text(json.dumps(forecast, ensure_ascii=False, indent=2), encoding="utf-8")
         (PUBLIC_DATA / "forecast.json").write_text(json.dumps(forecast, ensure_ascii=False, indent=2), encoding="utf-8")
-        print(f"OK forecast-only status={forecast.get('status')} oil_source={forecast.get('oil_source')} as_of={forecast.get('as_of')} market={forecast.get('market_status')}")
+        # meta：forecast_status + data_quality.forecast 从新 forecast 派生；
+        # 不碰 last_checked_at/last_change_at（那是价格抓取的口径）。
+        # meta.json 损坏/缺失则跳过补丁，不让预测任务失败。
+        f_status, f_text = _forecast_meta_fields(forecast)
+        for _mp in (DATA / "meta.json", PUBLIC_DATA / "meta.json"):
+            try:
+                _meta = json.loads(_mp.read_text(encoding="utf-8"))
+            except Exception:  # noqa: BLE001
+                continue
+            _meta["forecast_status"] = f_status
+            _meta.setdefault("data_quality", {})["forecast"] = f_text
+            _mp.write_text(json.dumps(_meta, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"OK forecast-only status={forecast.get('status')} oil_source={forecast.get('oil_source')} as_of={forecast.get('as_of')} market={forecast.get('market_status')} meta forecast_status={f_status}")
         return
     html = fetch_text(SOURCE_URL)
     provinces, next_label, status = parse_prices(html)
@@ -533,6 +564,15 @@ def main():
     DATA.mkdir(parents=True, exist_ok=True)
     PUBLIC_DATA.mkdir(parents=True, exist_ok=True)
 
+    # 旧 meta：last_change_at 回退链用（历史缺失时），提前读一次，后面 meta 更新复用
+    prev_meta = {}
+    _meta_path_early = DATA / "meta.json"
+    if _meta_path_early.exists():
+        try:
+            prev_meta = json.loads(_meta_path_early.read_text(encoding="utf-8"))
+        except Exception:  # noqa: BLE001
+            prev_meta = {}
+
     # 历史：只有变动才追加
     hist_path = DATA / "history.jsonl"
     last = None
@@ -542,6 +582,23 @@ def main():
         except Exception:  # noqa: BLE001
             last = None
     changed = (last is None or last.get("provinces") != provinces)
+
+    # 时间语义（2026-10-18 拆分，旧 fetched_at 语义含糊）：
+    # last_checked_at = 本次抓取时间，每次运行都更新，即使价格无变化；
+    # last_change_at = 价格最后一次变化的时间 = 本次有变化则 now，否则上条历史快照时间；
+    # fetched_at / updated_at 兼容保留，与 last_change_at 同值。
+    last_checked_at = fetched_at
+    if changed:
+        last_change_at = fetched_at
+    else:
+        last_change_at = ((last or {}).get("fetched_at")
+                          or prev_meta.get("last_change_at")
+                          or prev_meta.get("fetched_at")
+                          or fetched_at)
+    prices.update({"fetched_at": last_change_at,
+                   "last_change_at": last_change_at,
+                   "last_checked_at": last_checked_at})
+
     if changed:
         with open(hist_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(prices, ensure_ascii=False) + "\n")
@@ -563,32 +620,32 @@ def main():
     except Exception as e:  # noqa: BLE001 — 城市失败不影响省表
         print(f"cities failed (keep old): {e}")
 
-    # meta：保留 history_start，更新 fetched_at
+    # 预测先算：meta 的 forecast 字段从本次 forecast 派生（不再写死 no_data）
+    try:
+        forecast = try_forecast(provinces)
+    except Exception:  # noqa: BLE001 — 预测失败不影响价格抓取
+        forecast = {"status": "no_data", "note": "预测计算失败，仍保留价格数据。"}
+    (DATA / "forecast.json").write_text(json.dumps(forecast, ensure_ascii=False, indent=2), encoding="utf-8")
+    f_status, f_text = _forecast_meta_fields(forecast)
+
+    # meta：保留 history_start；时间字段按新语义；forecast 字段从 forecast 派生
     meta_path = DATA / "meta.json"
-    meta = {}
-    if meta_path.exists():
-        try:
-            meta = json.loads(meta_path.read_text(encoding="utf-8"))
-        except Exception:  # noqa: BLE001
-            meta = {}
-    meta.update({"fetched_at": fetched_at, "updated_at": fetched_at,
+    meta = dict(prev_meta)
+    meta.update({"fetched_at": last_change_at, "updated_at": last_change_at,
+                 "last_change_at": last_change_at, "last_checked_at": last_checked_at,
+                 "forecast_status": f_status,
                  "source": "qiyoujiage.com", "source_url": SOURCE_URL,
                  "next_adjustment": next_iso, "next_adjustment_label": next_label,
                  "next_adjustment_rolled": next_rolled,
                  "adjustment_status": status,
                  "history_start": meta.get("history_start", "2026-10-15")})
+    meta.setdefault("data_quality", {})["forecast"] = f_text
     if cities_result and cities_result.get("status") == "ok":
         meta["cities_status"] = "ok"
         meta.setdefault("data_quality", {})["cities"] = (
             f"城市级价格已接入：{cities_result['count']} 个城市（10 个非统一价省），"
             "来源 qiyoujiage.com 城市页；异常标“待核对”不展示，缺失显示 —。")
     (meta_path).write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
-
-    try:
-        forecast = try_forecast(provinces)
-    except Exception:  # noqa: BLE001 — 预测失败不影响价格抓取
-        forecast = {"status": "no_data", "note": "预测计算失败，仍保留价格数据。"}
-    (DATA / "forecast.json").write_text(json.dumps(forecast, ensure_ascii=False, indent=2), encoding="utf-8")
 
     # 同步到 public/data（Worker 通过 ASSETS 提供）
     for name in ["prices.json", "meta.json", "forecast.json"]:
@@ -599,7 +656,7 @@ def main():
             (PUBLIC_DATA / name).write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
     if hist_path.exists():
         (PUBLIC_DATA / "history.jsonl").write_text(hist_path.read_text(encoding="utf-8"), encoding="utf-8")
-    print(f"OK fetched_at={fetched_at} provinces=31 next={next_label} status={status} changed={changed} rolled={next_rolled}")
+    print(f"OK last_checked_at={last_checked_at} last_change_at={last_change_at} provinces=31 next={next_label} status={status} changed={changed} rolled={next_rolled} forecast_status={f_status}")
 
 
 if __name__ == "__main__":
