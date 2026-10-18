@@ -39,20 +39,20 @@
     <div class="card-body">
       <h1 class="card-title text-xl">开发者 API</h1>
       <p class="mt-3 text-sm opacity-70">Base URL 为当前域名。示例：</p>
-      <pre class="mt-3 overflow-auto rounded-xl bg-neutral p-4 text-[13px] leading-relaxed text-neutral-content">curl https://oil-price.fanzy.workers.dev/api/prices?province=上海
-curl https://oil-price.fanzy.workers.dev/api/prices?oil=95
-curl https://oil-price.fanzy.workers.dev/api/history
-curl https://oil-price.fanzy.workers.dev/api/trend?province=上海&amp;oil=95
-curl https://oil-price.fanzy.workers.dev/api/meta
-curl https://oil-price.fanzy.workers.dev/api/forecast
-curl https://oil-price.fanzy.workers.dev/api/export.csv</pre>
+      <pre class="mt-3 overflow-auto rounded-xl bg-neutral p-4 text-[13px] leading-relaxed text-neutral-content">curl https://oil.fansys.top/api/prices?province=上海
+curl https://oil.fansys.top/api/prices?oil=95
+curl https://oil.fansys.top/api/history
+curl https://oil.fansys.top/api/trend?province=上海&amp;oil=95
+curl https://oil.fansys.top/api/meta
+curl https://oil.fansys.top/api/forecast
+curl https://oil.fansys.top/api/export.csv</pre>
       <div class="mt-3 flex flex-wrap gap-2">
         <a href="/openapi.yaml" class="btn btn-outline btn-sm">OpenAPI YAML</a>
         <a href="/api/export.csv" class="btn btn-outline btn-sm">下载 CSV</a>
         <a href="/rss.xml" class="btn btn-outline btn-sm">RSS</a>
         <a href="/health" class="btn btn-outline btn-sm">/health</a>
       </div>
-      <p class="mt-3 text-xs leading-relaxed opacity-70">Webhook：订阅调价变更可轮询 <code class="badge badge-ghost">/api/meta</code> 的 <code class="badge badge-ghost">fetched_at</code>，或订阅 <code class="badge badge-ghost">/rss.xml</code>。暂不提供推送服务。</p>
+      <p class="mt-3 text-xs leading-relaxed opacity-70">Webhook：订阅调价变更可轮询 <code class="badge badge-ghost">/api/meta</code> 的 <code class="badge badge-ghost">last_change_at</code>（价格变化时才更新），或订阅 <code class="badge badge-ghost">/rss.xml</code>。<code class="badge badge-ghost">last_checked_at</code> 为上次抓取检查时间，<code class="badge badge-ghost">fetched_at</code> 与 <code class="badge badge-ghost">last_change_at</code> 同值（兼容保留）。暂不提供推送服务。</p>
       <h2 class="mt-5 text-sm font-semibold">在线 Playground</h2>
       <div class="mt-2 flex flex-col gap-3 sm:flex-row">
         <label class="sr-only" for="pgPath">API 路径</label>
@@ -68,8 +68,8 @@ curl https://oil-price.fanzy.workers.dev/api/export.csv</pre>
         <li><code>GET /api/meta</code> — 更新时间、下次调整、数据质量</li>
         <li><code>GET /api/forecast</code> — 国际油价预测（含各省预测价 + 每升变动）</li>
         <li><code>GET /api/ai-interpretation?province=</code> — AI 解读（Workers AI，只用已验证数据，失败回退规则解读，缓存 1 小时）</li>
-        <li><code>GET /api/global</code> — 全球对比（待接入）</li>
-        <li><code>GET /api/cities</code> — 城市级（收集中）</li>
+        <li><code>GET /api/global</code> — 全球对比（已接入：欧盟 27 国 + 美国 + 中国）</li>
+        <li><code>GET /api/cities</code> — 城市级（已接入：124 个城市）</li>
         <li><code>GET /api/export.csv</code> — CSV 导出</li>
       </ul>
     </div>
