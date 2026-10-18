@@ -6,7 +6,7 @@ info:
     31 省汽油柴油价格，免 Key，CORS 全开。数据来源 qiyoujiage.com，仅取价格数字与调价时间。
     历史从 2026-10-15 开始积累。未验证数据一律 no_data / pending，不编造。
 servers:
-  - url: https://oil-price.fanzy.workers.dev
+  - url: https://oil.fansys.top
     description: 生产地址
 paths:
   /api/prices:
@@ -28,7 +28,7 @@ paths:
   /api/meta:
     get: {summary: 元数据（下次调整、来源、校验状态）, responses: {"200": {description: OK}}}
   /api/cities:
-    get: {summary: 城市级（收集中）, responses: {"200": {description: OK}}}
+    get: {summary: 城市级（已接入）, responses: {"200": {description: OK}}}
   /api/forecast:
     get: {summary: 下次调价预测（no_data 时不编造）, responses: {"200": {description: OK}}}
   /api/ai-interpretation:
@@ -38,7 +38,7 @@ paths:
         - {name: province, in: query, schema: {type: string}, example: 上海}
       responses: {"200": {description: OK}}
   /api/global:
-    get: {summary: 全球对比（待接入）, responses: {"200": {description: OK}}}
+    get: {summary: 全球对比（已接入）, responses: {"200": {description: OK}}}
   /api/export.csv:
     get: {summary: CSV 导出, responses: {"200": {description: OK}}}
   /health:
