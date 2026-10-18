@@ -25,9 +25,9 @@
 
 | 功能 | 状态 | 原因 |
 |---|---|---|
-| 城市级价格（9 个非统一价省拆到市） | 收集中 | 源站城市页结构未验证通过，不编造城市数据 |
+| 城市级价格（10 个非统一价省拆到市） | 已接入（124 城） | 源站城市页，异常标“待核对”不展示 |
 | 预测（Brent/WTI + 汇率） | 已跑通（置信度低） | FRED Brent/WTI + ER-API 汇率；FRED 数据滞后数日、Brent/WTI 为官方篮子代理、系数 1.0 为估算假设；公式与来源见 `data/forecast.json` |
-| 全球主要国家对比 | 待接入 | 需要可验证的公开来源与日期标注 |
+| 全球主要国家对比 | 已接入（欧盟 27 国 + 美国 + 中国） | 数据日期见各行 as_of |
 | 发改委公告逐项对照（多源校验） | 待接入 | 对照数据未接入；不一致标红逻辑已实现 |
 
 ### 预测公式
@@ -65,7 +65,7 @@ GET /rss.xml
 GET /openapi.yaml
 ```
 
-Webhook：轮询 `/api/meta` 的 `fetched_at` 或订阅 `/rss.xml`。暂不提供推送服务。
+Webhook：轮询 `/api/meta` 的 `last_change_at`（价格变化时才更新）或订阅 `/rss.xml`。`last_checked_at` 为上次抓取检查时间。暂不提供推送服务。
 
 ## 本地开发
 
@@ -84,9 +84,9 @@ GitHub Actions（`.github/workflows/update-prices.yml`）：每天 02:00 UTC + �
 
 ## 部署（已上线）
 
-- 页面：https://oil-price.fanzy.workers.dev/
+- 页面：https://oil.fansys.top/（自定义域名；https://oil-price.fanzy.workers.dev 同服务）
 - 仓库：https://github.com/fanzbus/oil-price
-- 部署：`npx wrangler deploy`（Cloudflare Workers，静态 + API 同服务）。改代码后重新 deploy 即可；数据由 GitHub Actions 每天 02:00 UTC 自动更新。
+- 部署：`npx wrangler deploy`（Cloudflare Workers，静态 + API 同服务）。改代码后重新 deploy 即可；数据由 GitHub Actions 每天 02:00 UTC 更新到仓库，线上生效需重新 deploy（Cloudflare 不自动拉取 GitHub）。
 
 ## 许可证
 
