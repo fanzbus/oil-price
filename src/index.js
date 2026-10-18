@@ -112,6 +112,29 @@ function cleanAiText(raw) {
   if (t.length > 600) t = t.slice(0, 600);
   return t;
 }
+function mentionsPrediction(text, facts) {
+  // 有预测时，文本必须提到预测内容：预计调整或区间数字，且附近带“元/吨”
+  // （只查数字会误判：小幅调整时预测价 8.59 与现价 8.57 在容差内无法区分；
+  //  元/吨只出现在预测语境，现价用元/升；取绝对值，模型常写“下调 120 元/吨”而非“-120”）。
+  // 无预测时不要求；无可提数字时不强求。用于拦截“暂无具体预测价格”这类
+  // 漏网口误：过滤删掉口误句后，若正文完全没提预测，守门失败，走重试/回退。
+  if (facts.forecast_status !== "estimated") return true;
+  const nums = [];
+  if (typeof facts.estimated_adjustment_yuan_per_ton === "number") nums.push(Math.abs(facts.estimated_adjustment_yuan_per_ton));
+  const rng = facts.estimated_range;
+  if (rng) for (const k of ["low", "high"]) if (typeof rng[k] === "number") nums.push(Math.abs(rng[k]));
+  if (!nums.length) return true;
+  const re = /-?\d+(?:\.\d+)?/g;
+  let m;
+  const s = String(text);
+  while ((m = re.exec(s)) !== null) {
+    const n = Math.abs(parseFloat(m[0]));
+    const near = s.slice(m.index + m[0].length, m.index + m[0].length + 15);
+    if (!/元\/吨/.test(near)) continue;
+    if (nums.some((a) => Math.abs(n - a) <= Math.max(0.03, Math.abs(a) * 0.01))) return true;
+  }
+  return false;
+}
 async function aiInterpretation(env, request, facts, ruleText) {
   const base = {
     source: "rule",
@@ -125,14 +148,14 @@ async function aiInterpretation(env, request, facts, ruleText) {
     fallback_reason: null,
   };
   if (!env.AI?.run) return { ...base, fallback_reason: "no_ai_binding" };
-  const system = "你是今日油价站的解读助手。只用用户给定的数字，不编造、不推测任何新数字、不编造日期和油价。数字必须原样照抄，禁止四舍五入、禁止改写（例如 8.662 就写 8.662，不要写成 8.66 或 8.6）。油号叫法：p92=92号汽油，p95=95号汽油，p98=98号汽油，d0=0号柴油（不要叫 0汽油）。若 forecast_status 不是 estimated，只说现状 + 暂无预测，不要编趋势。输出 4 段中文，约 250 字，每段 1-2 句：1）现状：当前省份与全国均价；2）国际油价趋势：Brent 近 10 日均值 vs 前 10 日均值及各自变化率，WTI 同理，再说合成变化率，指出谁涨谁跌、谁主导；3）下次调价预测：方向、元/吨、区间、每升变动、当前省份预测价，并注明置信度与“越接近调价日越准”；4）加油建议：上调则可提前加、下调则可等、搁浅则按需加。不要输出 Markdown、不要列数字表格、不要重复公式、不要编造置信度以外的判断。";
+  const system = "你是今日油价站的解读助手。只用用户给定的数字，不编造、不推测任何新数字、不编造日期和油价。数字必须原样照抄，禁止四舍五入、禁止改写（例如 8.662 就写 8.662，不要写成 8.66 或 8.6）。油号叫法：p92=92号汽油，p95=95号汽油，p98=98号汽油，d0=0号柴油（不要叫 0汽油）。若 forecast_status 不是 estimated，只说现状 + 暂无预测，不要编趋势。输出 4 段中文，约 250 字，每段 1-2 句：1）现状：当前省份与全国均价；2）国际油价趋势：Brent 近 10 日均值 vs 前 10 日均值及各自变化率，WTI 同理，再说合成变化率，指出谁涨谁跌、谁主导；3）下次调价预测：方向、元/吨、区间、每升变动、当前省份预测价，并注明置信度与“越接近调价日越准”，有预测时必须写出当前省份预测价和预计调整（元/吨），禁止写“暂无预测”、“暂无具体预测价格”等暂无类表述；4）加油建议：上调则可提前加、下调则可等、搁浅则按需加。不要输出 Markdown、不要列数字表格、不要重复公式、不要编造置信度以外的判断。";
   const user = `事实（只许用这些数字）：${JSON.stringify(facts)}。规则解读参考：${ruleText}`;
   // 守门失败时重试一次（temperature 0 + 更严指令），仍失败则回退规则解读
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const res = await env.AI.run(AI_MODEL, {
         messages: [
-          { role: "system", content: attempt === 0 ? system : system + "再次强调：数字原样照抄，任何数字都不能改写。"},
+          { role: "system", content: attempt === 0 ? system : system + "再次强调：数字原样照抄，任何数字都不能改写；有预测时必须写出当前省份预测价和预计调整金额，禁止写暂无类表述。"},
           { role: "user", content: user },
         ],
         max_tokens: 600,
@@ -140,10 +163,16 @@ async function aiInterpretation(env, request, facts, ruleText) {
       });
       const raw = res?.response ?? res?.result?.response ?? res?.choices?.[0]?.message?.content ?? res?.result?.choices?.[0]?.message?.content ?? "";
       let text = cleanAiText(raw);
-      // 有预测时模型偶发口误“暂无预测”（与搁浅矛盾），直接删掉该短语，不整段丢弃；
+      // 有预测时模型偶发口误“暂无预测”类表述（与搁浅矛盾），直接删掉，不整段丢弃；
+      // 模式过滤：删任何“暂无…预测…”片段，精确匹配会漏“暂无具体预测价格”这类变体；
       // 无预测时若没说暂无预测，反而可能编了方向词，守门（只查数字）拦不住，整段回退
       if (facts.forecast_status === "estimated") {
-        text = text.replace(/，?暂无预测[。]?/g, "").replace(/，?无预测数据[。]?/g, "").replace(/，{2,}/g, "，").trim();
+        text = text
+          .replace(/，?暂无[^。，]*预测[^。，]*[。，]?/g, (m, offset, s) => (offset + m.length < s.length ? "，" : ""))
+          .replace(/，?无预测数据[。]?/g, "")
+          .replace(/，{2,}/g, "，")
+          .replace(/^[，、]/, "")
+          .trim();
       } else if (text && !text.includes("暂无预测")) {
         if (attempt === 0) continue;
         return { ...base, fallback_reason: "no_data_but_predicted" };
@@ -155,6 +184,10 @@ async function aiInterpretation(env, request, facts, ruleText) {
       if (!aiNumbersPass(text, facts)) {
         if (attempt === 0) continue;
         return { ...base, fallback_reason: "number_guard_failed" };
+      }
+      if (!mentionsPrediction(text, facts)) {
+        if (attempt === 0) continue;
+        return { ...base, fallback_reason: "no_prediction_mentioned" };
       }
       return { ...base, source: "workers-ai", model: AI_MODEL, interpretation: text, fallback_reason: null };
     } catch (e) {
