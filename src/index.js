@@ -68,13 +68,20 @@ function ruleTrendInterpretation(meta, forecast, provinceRow, nationalAvg) {
 
 // ---- AI 解读：Workers AI（免费额度）+ 数字守门 + 规则兜底 ----
 // 原则：AI 只负责把已验证的数字组织成自然语言，不许编新数字。
-// 数字守门：AI 文本里出现的每个数字，必须能在 facts 里找到（±0.02 容差）
+// 数字守门：AI 文本里出现的每个数字，必须能在 facts 里找到（容差随量级，见 numberTolerance）
 // 或属于通用白名单（50 元/吨门槛、40/130 地板天花板、10 工作日、油号、日期）。
 // 守门失败 / AI 报错 / 配额耗尽 / 无 AI 绑定 -> 回退规则解读，source=rule，绝不返回编造文本。
 const AI_MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8-fast";
 // 注：曾用 @cf/qwen/qwen3-30b-a3b-fp8，线上实测返回空（Qwen3 默认思考模式把 token 耗在思考里，
 // max_tokens 300 内出不了正文），改用无思考模式的 Llama 3.1 8B fp8-fast。
 const AI_CACHE_TTL = 3600;
+function numberTolerance(a) {
+  // 容差随量级：大数字（|a|≥1）用 max(0.03, 1%)，允许 8.662→8.66 这类照抄级四舍五入；
+  // 小数字（|a|<1，如每升变动 0.034）用 max(0.005, 5%)：0.03 绝对容差对它们太松，
+  // 会放过模型自算的 47/1000=0.047 这类错误（与 0.034 差 0.013，仍在 0.03 内）。
+  const m = Math.abs(a);
+  return m >= 1 ? Math.max(0.03, m * 0.01) : Math.max(0.005, m * 0.05);
+}
 function collectAllowedNumbers(facts) {
   const nums = [];
   const walk = (v) => {
@@ -99,8 +106,8 @@ function aiNumbersPass(text, facts) {
     const next = text[m.index + m[0].length] || "";
     if (Number.isInteger(n) && ["年", "月", "日", "时"].includes(next)) continue;
     if (Number.isInteger(n) && ["年", "月"].includes(prev)) continue;
-    // 容差：max(0.03, 1%)，允许 8.662→8.66 这类照抄级四舍五入，仍拦截 9.99 这类编造
-    if (!allowed.some((a) => Math.abs(a - n) <= Math.max(0.03, Math.abs(a) * 0.01))) return false;
+    // 容差随量级，见 numberTolerance
+    if (!allowed.some((a) => Math.abs(a - n) <= numberTolerance(a))) return false;
   }
   return true;
 }
@@ -131,7 +138,7 @@ function mentionsPrediction(text, facts) {
     const n = Math.abs(parseFloat(m[0]));
     const near = s.slice(m.index + m[0].length, m.index + m[0].length + 15);
     if (!/元\/吨/.test(near)) continue;
-    if (nums.some((a) => Math.abs(n - a) <= Math.max(0.03, Math.abs(a) * 0.01))) return true;
+    if (nums.some((a) => Math.abs(n - a) <= numberTolerance(a))) return true;
   }
   return false;
 }
