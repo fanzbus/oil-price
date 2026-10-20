@@ -1,9 +1,9 @@
 {
   "status": "estimated",
   "as_of": "2026-10-20",
-  "change_rate_pct": 3.71,
+  "change_rate_pct": 3.65,
   "direction": "上调",
-  "estimated_adjustment_yuan_per_ton": 184.0,
+  "estimated_adjustment_yuan_per_ton": 181.0,
   "market_status": "trading",
   "market_status_note": "交易时段内",
   "confidence": "低（新周期初期滚动近似 + 代理篮子 + 系数 1.0 假设，越接近调价日越准）",
@@ -20,9 +20,9 @@
   "oil_source": "yahoo",
   "as_of_note": "Yahoo Finance 最后交易日（通常为今天或上一交易日）。",
   "brent": {
-    "latest": 108.38999938964844,
+    "latest": 107.87000274658203,
     "latest_date": "2026-10-20",
-    "avg_recent_10": 106.13,
+    "avg_recent_10": 106.08,
     "recent_range": [
       "2026-10-07",
       "2026-10-20"
@@ -32,12 +32,12 @@
       "2026-09-23",
       "2026-10-06"
     ],
-    "change_rate_pct": 2.95
+    "change_rate_pct": 2.9
   },
   "wti": {
-    "latest": 97.69000244140625,
+    "latest": 97.0199966430664,
     "latest_date": "2026-10-20",
-    "avg_recent_10": 95.53,
+    "avg_recent_10": 95.46,
     "recent_range": [
       "2026-10-07",
       "2026-10-20"
@@ -47,45 +47,45 @@
       "2026-09-23",
       "2026-10-06"
     ],
-    "change_rate_pct": 4.47
+    "change_rate_pct": 4.4
   },
   "fx_usd_cny": 6.693661,
   "fx_updated": "Tue, 20 Oct 2026 00:02:32 +0000",
-  "basket_usd_per_bbl": 100.83,
-  "crude_cost_cny_per_ton": 4947.0,
+  "basket_usd_per_bbl": 100.77,
+  "crude_cost_cny_per_ton": 4944.0,
   "estimated_adjustment_range": {
-    "low": 129.0,
-    "high": 239.0
+    "low": 127.0,
+    "high": 235.0
   },
   "delta_per_liter": {
-    "p92": 0.133,
-    "p95": 0.133,
-    "p98": 0.133,
-    "d0": 0.155
+    "p92": 0.131,
+    "p95": 0.131,
+    "p98": 0.131,
+    "d0": 0.152
   },
   "delta_per_liter_range": {
     "p92": [
-      0.093,
-      0.173
+      0.092,
+      0.17
     ],
     "p95": [
-      0.093,
-      0.173
+      0.092,
+      0.17
     ],
     "p98": [
-      0.093,
-      0.173
+      0.092,
+      0.17
     ],
     "d0": [
-      0.108,
-      0.201
+      0.107,
+      0.197
     ]
   },
   "predicted_national_avg": {
-    "p92": 8.795,
-    "p95": 9.376,
-    "p98": 10.633,
-    "d0": 8.45
+    "p92": 8.793,
+    "p95": 9.374,
+    "p98": 10.631,
+    "d0": 8.447
   },
   "predicted_prices": [
     {
@@ -177,7 +177,7 @@
       "p92": 8.7,
       "p95": 9.32,
       "p98": 10.14,
-      "d0": 8.38
+      "d0": 8.37
     },
     {
       "province": "广东",
@@ -191,7 +191,7 @@
       "p92": 8.7,
       "p95": 9.33,
       "p98": 10.33,
-      "d0": 8.37
+      "d0": 8.36
     },
     {
       "province": "广西",
@@ -205,7 +205,7 @@
       "p92": 8.68,
       "p95": 9.36,
       "p98": 10.54,
-      "d0": 8.54
+      "d0": 8.53
     },
     {
       "province": "贵州",
@@ -275,7 +275,7 @@
       "p92": 8.7,
       "p95": 9.38,
       "p98": 10.21,
-      "d0": 8.37
+      "d0": 8.36
     },
     {
       "province": "云南",
