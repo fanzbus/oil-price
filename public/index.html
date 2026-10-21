@@ -290,8 +290,10 @@ function applyForecastPill() {
   const el = document.getElementById('statusBadge');
   if (!el) return;
   const dir = FORECAST.direction || (est > 0 ? '上调' : '下调');
+  // 预测按升显示：用 92 号每升变动（缺失时按元/吨 ÷1380 换算）
+  const perLiter = (FORECAST.delta_per_liter && FORECAST.delta_per_liter.p92 != null) ? FORECAST.delta_per_liter.p92 : est / 1380;
   el.className = `badge ${est > 0 ? 'badge-error' : 'badge-success'} badge-soft whitespace-nowrap`;
-  el.textContent = `预计${dir} ${est} 元/吨`;
+  el.textContent = `预计${dir} ${perLiter > 0 ? '+' : ''}${perLiter.toFixed(3)} 元/升`;
 }
 async function loadForecastPill() {
   try { FORECAST = await j('/api/forecast'); applyForecastPill(); } catch (e) {}
