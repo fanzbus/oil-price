@@ -86,7 +86,7 @@ GitHub Actions（`.github/workflows/update-prices.yml`）：每天 02:00 UTC + �
 
 - 页面：https://oil.fansys.top/（自定义域名；https://oil-price.fanzy.workers.dev 同服务）
 - 仓库：https://github.com/fanzbus/oil-price
-- 部署：`npx wrangler deploy`（Cloudflare Workers，静态 + API 同服务）。改代码后重新 deploy 即可；数据由 GitHub Actions 每天 02:00 UTC 更新到仓库，线上生效需重新 deploy（Cloudflare 不自动拉取 GitHub）。
+- 部署：`npx wrangler deploy`（Cloudflare Workers，静态 + API 同服务）。改代码后重新 deploy 即可；数据更新（价格每日 02:00 UTC / 预测每小时）由 GitHub Actions 提交后自动 deploy（需仓库配置 CLOUDFLARE_API_TOKEN secret，未配置时部署步骤自动跳过、仍可手动 deploy）。
 
 ## 许可证
 
