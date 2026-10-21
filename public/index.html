@@ -174,8 +174,9 @@ function renderPrices() {
   const nextT = DATA.next_adjustment ? new Date(DATA.next_adjustment) : null;
   const expired = nextT && nextT <= new Date();
   document.getElementById('adjustPill').innerHTML = expired
-    ? `<span class="badge badge-ghost whitespace-nowrap">上次调整：${DATA.next_adjustment_label || '—'}</span><span class="badge badge-ghost whitespace-nowrap">${DATA.adjustment_status || ''}</span>`
-    : `<span class="badge badge-primary badge-soft whitespace-nowrap">下次调整：${DATA.next_adjustment_label || '—'}</span><span class="badge badge-ghost whitespace-nowrap">${DATA.adjustment_status || ''}</span>`;
+    ? `<span class="badge badge-ghost whitespace-nowrap">上次调整：${DATA.next_adjustment_label || '—'}</span><span id="statusBadge" class="badge badge-ghost whitespace-nowrap">${DATA.adjustment_status || ''}</span>`
+    : `<span class="badge badge-primary badge-soft whitespace-nowrap">下次调整：${DATA.next_adjustment_label || '—'}</span><span id="statusBadge" class="badge badge-ghost whitespace-nowrap">${DATA.adjustment_status || ''}</span>`;
+  applyForecastPill();
   document.getElementById('interpretation').textContent = DATA.interpretation || '';
   const avg = DATA.national_avg || {};
   document.getElementById('heroP92').textContent = fmt(avg.p92);
@@ -280,6 +281,21 @@ async function renderAi() {
     metaEl.textContent = 'AI 解读基于当前数据分析，不产生新的预测；正式结果以国家发改委官方通知为准。';
   }
 }
+// 状态徽章：预测涨跌幅超过调价门槛（|预估| ≥ 50 元/吨）时，红框位置改显示预测；未超门槛保持源站状态
+let FORECAST = null;
+function applyForecastPill() {
+  if (!FORECAST || FORECAST.status !== 'estimated' || FORECAST.estimated_adjustment_yuan_per_ton == null) return;
+  const est = FORECAST.estimated_adjustment_yuan_per_ton;
+  if (Math.abs(est) < 50) return;
+  const el = document.getElementById('statusBadge');
+  if (!el) return;
+  const dir = FORECAST.direction || (est > 0 ? '上调' : '下调');
+  el.className = `badge ${est > 0 ? 'badge-error' : 'badge-success'} badge-soft whitespace-nowrap`;
+  el.textContent = `预计${dir} ${est} 元/吨`;
+}
+async function loadForecastPill() {
+  try { FORECAST = await j('/api/forecast'); applyForecastPill(); } catch (e) {}
+}
 async function load() {
   initShared();
   DATA = await j('/api/prices');
@@ -293,7 +309,7 @@ async function load() {
   if (!DATA.provinces.find(r => r.province === CURRENT)) CURRENT = '上海';
   populateProvinceSelect(document.getElementById('topProvince'), DATA.provinces.map(r => r.province));
   initProvinceSwitcher(() => { renderPrices(); renderAi(); });
-  renderPrices(); renderAi();
+  renderPrices(); renderAi(); loadForecastPill();
 }
 document.getElementById('q').oninput = () => { renderTable(); };
 document.getElementById('sortSel').onchange = e => { OIL = e.target.value; renderPrices(); };
