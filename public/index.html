@@ -170,7 +170,8 @@ function cycleProgress() {
 }
 function renderPrices() {
   if (!DATA) return;
-  document.getElementById('metaLine').textContent = `更新于 ${fmtDateTime(DATA.fetched_at)}`;
+  // 显示最新数据的生成时间（每次抓取都更新），不是上次价格变动时间
+  document.getElementById('metaLine').textContent = `更新于 ${fmtDateTime(DATA.last_checked_at || DATA.fetched_at)}`;
   const nextT = DATA.next_adjustment ? new Date(DATA.next_adjustment) : null;
   const expired = nextT && nextT <= new Date();
   document.getElementById('adjustPill').innerHTML = expired
