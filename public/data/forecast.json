@@ -1,9 +1,9 @@
 {
   "status": "estimated",
-  "as_of": "2026-10-21",
-  "change_rate_pct": 5.32,
+  "as_of": "2026-10-22",
+  "change_rate_pct": 5.34,
   "direction": "上调",
-  "estimated_adjustment_yuan_per_ton": 266.0,
+  "estimated_adjustment_yuan_per_ton": 267.0,
   "market_status": "trading",
   "market_status_note": "交易时段内",
   "confidence": "低（新周期初期滚动近似 + 代理篮子 + 系数 1.0 假设，越接近调价日越准）",
@@ -20,42 +20,42 @@
   "oil_source": "yahoo",
   "as_of_note": "Yahoo Finance 最后交易日（通常为今天或上一交易日）。",
   "brent": {
-    "latest": 109.8499984741211,
-    "latest_date": "2026-10-21",
-    "avg_recent_10": 107.14,
+    "latest": 110.05000305175781,
+    "latest_date": "2026-10-22",
+    "avg_recent_10": 107.16,
     "recent_range": [
       "2026-10-08",
-      "2026-10-21"
+      "2026-10-22"
     ],
     "avg_prev_10": 102.8,
     "prev_range": [
       "2026-09-24",
       "2026-10-07"
     ],
-    "change_rate_pct": 4.22
+    "change_rate_pct": 4.24
   },
   "wti": {
-    "latest": 97.86000061035156,
-    "latest_date": "2026-10-21",
-    "avg_recent_10": 96.9,
+    "latest": 98.02999877929688,
+    "latest_date": "2026-10-22",
+    "avg_recent_10": 96.92,
     "recent_range": [
       "2026-10-08",
-      "2026-10-21"
+      "2026-10-22"
     ],
     "avg_prev_10": 91.06,
     "prev_range": [
       "2026-09-24",
       "2026-10-07"
     ],
-    "change_rate_pct": 6.42
+    "change_rate_pct": 6.44
   },
   "fx_usd_cny": 6.691314,
   "fx_updated": "Wed, 21 Oct 2026 00:02:32 +0000",
-  "basket_usd_per_bbl": 102.02,
-  "crude_cost_cny_per_ton": 5004.0,
+  "basket_usd_per_bbl": 102.04,
+  "crude_cost_cny_per_ton": 5005.0,
   "estimated_adjustment_range": {
-    "low": 186.0,
-    "high": 346.0
+    "low": 187.0,
+    "high": 347.0
   },
   "delta_per_liter": {
     "p92": 0.193,
@@ -65,20 +65,20 @@
   },
   "delta_per_liter_range": {
     "p92": [
-      0.135,
+      0.136,
       0.251
     ],
     "p95": [
-      0.135,
+      0.136,
       0.251
     ],
     "p98": [
-      0.135,
+      0.136,
       0.251
     ],
     "d0": [
-      0.156,
-      0.291
+      0.157,
+      0.292
     ]
   },
   "predicted_national_avg": {
