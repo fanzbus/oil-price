@@ -20,9 +20,9 @@
   "oil_source": "yahoo",
   "as_of_note": "Yahoo Finance 最后交易日（通常为今天或上一交易日）。",
   "brent": {
-    "latest": 110.41999816894531,
+    "latest": 110.44999694824219,
     "latest_date": "2026-10-23",
-    "avg_recent_10": 108.49,
+    "avg_recent_10": 108.5,
     "recent_range": [
       "2026-10-12",
       "2026-10-23"
@@ -35,9 +35,9 @@
     "change_rate_pct": 5.74
   },
   "wti": {
-    "latest": 101.48999786376953,
+    "latest": 101.52999877929688,
     "latest_date": "2026-10-23",
-    "avg_recent_10": 98.59,
+    "avg_recent_10": 98.6,
     "recent_range": [
       "2026-10-12",
       "2026-10-23"
@@ -51,7 +51,7 @@
   },
   "fx_usd_cny": 6.688225,
   "fx_updated": "Fri, 23 Oct 2026 00:02:31 +0000",
-  "basket_usd_per_bbl": 103.54,
+  "basket_usd_per_bbl": 103.55,
   "crude_cost_cny_per_ton": 5076.0,
   "estimated_adjustment_range": {
     "low": 257.0,
