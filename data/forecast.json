@@ -1,11 +1,11 @@
 {
   "status": "estimated",
   "as_of": "2026-10-23",
-  "change_rate_pct": 7.4,
+  "change_rate_pct": 7.39,
   "direction": "上调",
   "estimated_adjustment_yuan_per_ton": 376.0,
-  "market_status": "trading",
-  "market_status_note": "交易时段内",
+  "market_status": "closed",
+  "market_status_note": "休市中，显示上一交易日收盘",
   "confidence": "低（新周期初期滚动近似 + 代理篮子 + 系数 1.0 假设，越接近调价日越准）",
   "formula": "10 个工作日一揽子原油价格变化率；按发改委规则，变化率对应调价金额不足 50 元/吨时不作调整（搁浅）。40 美元地板 / 130 美元天花板。本字段为规则估算，非官方预测。",
   "method": "Yahoo Finance Brent 期货 (BZ=F) + WTI 期货 (CL=F) 最近 10 个交易日均值 vs 再往前 10 个交易日均值，取两者变化率均值；汇率用 ER-API USD/CNY；换算见 forecast.json 内 derivation。",
@@ -20,7 +20,7 @@
   "oil_source": "yahoo",
   "as_of_note": "Yahoo Finance 最后交易日（通常为今天或上一交易日）。",
   "brent": {
-    "latest": 111.70999908447266,
+    "latest": 111.66000366210938,
     "latest_date": "2026-10-23",
     "avg_recent_10": 108.62,
     "recent_range": [
@@ -49,10 +49,10 @@
     ],
     "change_rate_pct": 8.93
   },
-  "fx_usd_cny": 6.688225,
-  "fx_updated": "Fri, 23 Oct 2026 00:02:31 +0000",
+  "fx_usd_cny": 6.684864,
+  "fx_updated": "Sat, 24 Oct 2026 00:02:31 +0000",
   "basket_usd_per_bbl": 103.7,
-  "crude_cost_cny_per_ton": 5084.0,
+  "crude_cost_cny_per_ton": 5081.0,
   "estimated_adjustment_range": {
     "low": 263.0,
     "high": 489.0
