@@ -1,9 +1,9 @@
 {
   "status": "estimated",
   "as_of": "2026-10-26",
-  "change_rate_pct": 8.17,
+  "change_rate_pct": 8.14,
   "direction": "上调",
-  "estimated_adjustment_yuan_per_ton": 418.0,
+  "estimated_adjustment_yuan_per_ton": 417.0,
   "market_status": "trading",
   "market_status_note": "交易时段内",
   "confidence": "低（新周期初期滚动近似 + 代理篮子 + 系数 1.0 假设，越接近调价日越准）",
@@ -20,9 +20,9 @@
   "oil_source": "yahoo",
   "as_of_note": "Yahoo Finance 最后交易日（通常为今天或上一交易日）。",
   "brent": {
-    "latest": 111.05999755859375,
+    "latest": 110.80999755859375,
     "latest_date": "2026-10-26",
-    "avg_recent_10": 109.56,
+    "avg_recent_10": 109.54,
     "recent_range": [
       "2026-10-13",
       "2026-10-26"
@@ -32,12 +32,12 @@
       "2026-09-29",
       "2026-10-12"
     ],
-    "change_rate_pct": 6.64
+    "change_rate_pct": 6.61
   },
   "wti": {
-    "latest": 102.12999725341797,
+    "latest": 101.9000015258789,
     "latest_date": "2026-10-26",
-    "avg_recent_10": 99.61,
+    "avg_recent_10": 99.59,
     "recent_range": [
       "2026-10-13",
       "2026-10-26"
@@ -47,21 +47,21 @@
       "2026-09-29",
       "2026-10-12"
     ],
-    "change_rate_pct": 9.7
+    "change_rate_pct": 9.67
   },
   "fx_usd_cny": 6.677446,
   "fx_updated": "Mon, 26 Oct 2026 00:02:31 +0000",
-  "basket_usd_per_bbl": 104.59,
-  "crude_cost_cny_per_ton": 5119.0,
+  "basket_usd_per_bbl": 104.56,
+  "crude_cost_cny_per_ton": 5118.0,
   "estimated_adjustment_range": {
-    "low": 293.0,
-    "high": 543.0
+    "low": 292.0,
+    "high": 542.0
   },
   "delta_per_liter": {
-    "p92": 0.303,
-    "p95": 0.303,
-    "p98": 0.303,
-    "d0": 0.351
+    "p92": 0.302,
+    "p95": 0.302,
+    "p98": 0.302,
+    "d0": 0.35
   },
   "delta_per_liter_range": {
     "p92": [
@@ -77,15 +77,15 @@
       0.393
     ],
     "d0": [
-      0.246,
-      0.456
+      0.245,
+      0.455
     ]
   },
   "predicted_national_avg": {
-    "p92": 8.965,
-    "p95": 9.546,
-    "p98": 10.803,
-    "d0": 8.646
+    "p92": 8.964,
+    "p95": 9.545,
+    "p98": 10.802,
+    "d0": 8.645
   },
   "predicted_prices": [
     {
