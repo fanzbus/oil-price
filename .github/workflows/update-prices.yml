@@ -8,8 +8,6 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
-    env:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -17,22 +15,18 @@ jobs:
       - name: Scrape homepage (prices only)
         run: python3 scripts/scrape.py
       - name: Commit if changed
-        id: commit
         run: |
           git config user.name "oil-price-bot"
           git config user.email "bot@example.com"
           git add data/ public/data/
           if git diff --cached --quiet; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "no changes"
           else
             git commit -m "chore(data): update prices $(date -u +%F)"
-            git push
-            echo "changed=true" >> "$GITHUB_OUTPUT"
+            # remote 可能已被沙盒手动推或其他 workflow 提交先行推进：rebase 后再推，带重试
+            for i in 1 2 3; do
+              git fetch origin main && git rebase origin/main && git push && break
+              echo "push failed, retry $i"
+              sleep 5
+            done
           fi
-      # 数据有变化且已配置 CLOUDFLARE_API_TOKEN 时自动部署；未配置则跳过不报错
-      - name: Deploy to Cloudflare
-        if: ${{ steps.commit.outputs.changed == 'true' && env.CLOUDFLARE_API_TOKEN != '' }}
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: "ab179d59d7f0e869521a866793951790"
