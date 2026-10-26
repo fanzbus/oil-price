@@ -21,5 +21,14 @@ jobs:
           git config user.name "oil-price-bot"
           git config user.email "bot@example.com"
           git add data/global.json public/data/global.json data/meta.json public/data/meta.json
-          git diff --cached --quiet || git commit -m "chore(data): update global $(date -u +%F)"
-          git push
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "chore(data): update global $(date -u +%F)"
+            # remote 可能已被其他 workflow 提交先行推进：rebase 后再推，带重试
+            for i in 1 2 3; do
+              git fetch origin main && git rebase origin/main && git push && break
+              echo "push failed, retry $i"
+              sleep 5
+            done
+          fi
