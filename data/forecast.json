@@ -1,7 +1,7 @@
 {
   "status": "estimated",
   "as_of": "2026-10-29",
-  "change_rate_pct": 8.99,
+  "change_rate_pct": 9.0,
   "direction": "上调",
   "estimated_adjustment_yuan_per_ton": 470.0,
   "market_status": "trading",
@@ -20,9 +20,9 @@
   "oil_source": "yahoo",
   "as_of_note": "Yahoo Finance 最后交易日（通常为今天或上一交易日）。",
   "brent": {
-    "latest": 110.08000183105469,
+    "latest": 110.20999908447266,
     "latest_date": "2026-10-29",
-    "avg_recent_10": 112.2,
+    "avg_recent_10": 112.21,
     "recent_range": [
       "2026-10-16",
       "2026-10-29"
@@ -32,12 +32,12 @@
       "2026-10-02",
       "2026-10-15"
     ],
-    "change_rate_pct": 8.23
+    "change_rate_pct": 8.24
   },
   "wti": {
-    "latest": 101.22000122070312,
+    "latest": 101.37000274658203,
     "latest_date": "2026-10-29",
-    "avg_recent_10": 101.24,
+    "avg_recent_10": 101.26,
     "recent_range": [
       "2026-10-16",
       "2026-10-29"
@@ -47,12 +47,12 @@
       "2026-10-02",
       "2026-10-15"
     ],
-    "change_rate_pct": 9.74
+    "change_rate_pct": 9.76
   },
   "fx_usd_cny": 6.680538,
   "fx_updated": "Thu, 29 Oct 2026 00:02:31 +0000",
-  "basket_usd_per_bbl": 106.72,
-  "crude_cost_cny_per_ton": 5226.0,
+  "basket_usd_per_bbl": 106.73,
+  "crude_cost_cny_per_ton": 5227.0,
   "estimated_adjustment_range": {
     "low": 329.0,
     "high": 611.0
