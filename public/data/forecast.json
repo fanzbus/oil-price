@@ -3,7 +3,7 @@
   "as_of": "2026-10-29",
   "change_rate_pct": 9.14,
   "direction": "上调",
-  "estimated_adjustment_yuan_per_ton": 479.0,
+  "estimated_adjustment_yuan_per_ton": 478.0,
   "market_status": "trading",
   "market_status_note": "交易时段内",
   "confidence": "低（新周期初期滚动近似 + 代理篮子 + 系数 1.0 假设，越接近调价日越准）",
@@ -20,9 +20,9 @@
   "oil_source": "yahoo",
   "as_of_note": "Yahoo Finance 最后交易日（通常为今天或上一交易日）。",
   "brent": {
-    "latest": 111.55000305175781,
+    "latest": 111.5,
     "latest_date": "2026-10-29",
-    "avg_recent_10": 112.35,
+    "avg_recent_10": 112.34,
     "recent_range": [
       "2026-10-16",
       "2026-10-29"
@@ -35,7 +35,7 @@
     "change_rate_pct": 8.37
   },
   "wti": {
-    "latest": 102.80999755859375,
+    "latest": 102.7699966430664,
     "latest_date": "2026-10-29",
     "avg_recent_10": 101.4,
     "recent_range": [
@@ -55,37 +55,37 @@
   "crude_cost_cny_per_ton": 5233.0,
   "estimated_adjustment_range": {
     "low": 335.0,
-    "high": 623.0
+    "high": 621.0
   },
   "delta_per_liter": {
-    "p92": 0.347,
-    "p95": 0.347,
-    "p98": 0.347,
-    "d0": 0.403
+    "p92": 0.346,
+    "p95": 0.346,
+    "p98": 0.346,
+    "d0": 0.402
   },
   "delta_per_liter_range": {
     "p92": [
       0.243,
-      0.451
+      0.45
     ],
     "p95": [
       0.243,
-      0.451
+      0.45
     ],
     "p98": [
       0.243,
-      0.451
+      0.45
     ],
     "d0": [
       0.282,
-      0.524
+      0.522
     ]
   },
   "predicted_national_avg": {
-    "p92": 9.009,
-    "p95": 9.59,
-    "p98": 10.847,
-    "d0": 8.698
+    "p92": 9.008,
+    "p95": 9.589,
+    "p98": 10.846,
+    "d0": 8.697
   },
   "predicted_prices": [
     {
