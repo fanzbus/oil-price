@@ -1,9 +1,9 @@
 {
   "status": "estimated",
   "as_of": "2026-11-02",
-  "change_rate_pct": 7.39,
+  "change_rate_pct": 7.36,
   "direction": "上调",
-  "estimated_adjustment_yuan_per_ton": 387.0,
+  "estimated_adjustment_yuan_per_ton": 386.0,
   "market_status": "trading",
   "market_status_note": "交易时段内",
   "confidence": "低（新周期初期滚动近似 + 代理篮子 + 系数 1.0 假设，越接近调价日越准）",
@@ -20,9 +20,9 @@
   "oil_source": "yahoo",
   "as_of_note": "Yahoo Finance 最后交易日（通常为今天或上一交易日）。",
   "brent": {
-    "latest": 110.43000030517578,
+    "latest": 110.08999633789062,
     "latest_date": "2026-11-02",
-    "avg_recent_10": 113.55,
+    "avg_recent_10": 113.51,
     "recent_range": [
       "2026-10-20",
       "2026-11-02"
@@ -32,12 +32,12 @@
       "2026-10-06",
       "2026-10-19"
     ],
-    "change_rate_pct": 7.78
+    "change_rate_pct": 7.75
   },
   "wti": {
-    "latest": 101.06999969482422,
+    "latest": 100.95999908447266,
     "latest_date": "2026-11-02",
-    "avg_recent_10": 101.33,
+    "avg_recent_10": 101.32,
     "recent_range": [
       "2026-10-20",
       "2026-11-02"
@@ -47,21 +47,21 @@
       "2026-10-06",
       "2026-10-19"
     ],
-    "change_rate_pct": 6.99
+    "change_rate_pct": 6.98
   },
   "fx_usd_cny": 6.660856,
   "fx_updated": "Mon, 02 Nov 2026 00:02:31 +0000",
-  "basket_usd_per_bbl": 107.44,
-  "crude_cost_cny_per_ton": 5246.0,
+  "basket_usd_per_bbl": 107.42,
+  "crude_cost_cny_per_ton": 5244.0,
   "estimated_adjustment_range": {
-    "low": 271.0,
-    "high": 503.0
+    "low": 270.0,
+    "high": 502.0
   },
   "delta_per_liter": {
     "p92": 0.28,
     "p95": 0.28,
     "p98": 0.28,
-    "d0": 0.325
+    "d0": 0.324
   },
   "delta_per_liter_range": {
     "p92": [
@@ -77,15 +77,15 @@
       0.364
     ],
     "d0": [
-      0.228,
-      0.423
+      0.227,
+      0.422
     ]
   },
   "predicted_national_avg": {
     "p92": 9.219,
     "p95": 9.817,
     "p98": 11.107,
-    "d0": 8.907
+    "d0": 8.906
   },
   "predicted_prices": [
     {
@@ -107,7 +107,7 @@
       "p92": 9.13,
       "p95": 9.69,
       "p98": 11.76,
-      "d0": 8.88
+      "d0": 8.87
     },
     {
       "province": "天津",
@@ -142,7 +142,7 @@
       "p92": 9.11,
       "p95": 9.71,
       "p98": 11.21,
-      "d0": 8.96
+      "d0": 8.95
     },
     {
       "province": "内蒙古",
@@ -163,7 +163,7 @@
       "p92": 9.06,
       "p95": 9.55,
       "p98": 10.83,
-      "d0": 8.79
+      "d0": 8.78
     },
     {
       "province": "甘肃",
