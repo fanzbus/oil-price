@@ -35,7 +35,7 @@
     "change_rate_pct": 7.75
   },
   "wti": {
-    "latest": 100.95999908447266,
+    "latest": 100.91000366210938,
     "latest_date": "2026-11-02",
     "avg_recent_10": 101.32,
     "recent_range": [
@@ -51,7 +51,7 @@
   },
   "fx_usd_cny": 6.660856,
   "fx_updated": "Mon, 02 Nov 2026 00:02:31 +0000",
-  "basket_usd_per_bbl": 107.42,
+  "basket_usd_per_bbl": 107.41,
   "crude_cost_cny_per_ton": 5244.0,
   "estimated_adjustment_range": {
     "low": 270.0,
