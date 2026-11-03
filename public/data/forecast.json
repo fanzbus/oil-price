@@ -1,7 +1,7 @@
 {
   "status": "estimated",
   "as_of": "2026-11-03",
-  "change_rate_pct": 6.88,
+  "change_rate_pct": 6.89,
   "direction": "上调",
   "estimated_adjustment_yuan_per_ton": 360.0,
   "market_status": "trading",
@@ -35,7 +35,7 @@
     "change_rate_pct": 7.24
   },
   "wti": {
-    "latest": 96.62999725341797,
+    "latest": 96.66999816894531,
     "latest_date": "2026-11-03",
     "avg_recent_10": 100.89,
     "recent_range": [
@@ -51,7 +51,7 @@
   },
   "fx_usd_cny": 6.665393,
   "fx_updated": "Tue, 03 Nov 2026 00:02:31 +0000",
-  "basket_usd_per_bbl": 106.93,
+  "basket_usd_per_bbl": 106.94,
   "crude_cost_cny_per_ton": 5225.0,
   "estimated_adjustment_range": {
     "low": 252.0,
