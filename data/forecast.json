@@ -1,9 +1,9 @@
 {
   "status": "estimated",
   "as_of": "2026-11-03",
-  "change_rate_pct": 5.46,
+  "change_rate_pct": 5.47,
   "direction": "上调",
-  "estimated_adjustment_yuan_per_ton": 284.0,
+  "estimated_adjustment_yuan_per_ton": 285.0,
   "market_status": "trading",
   "market_status_note": "交易时段内",
   "confidence": "低（新周期初期滚动近似 + 代理篮子 + 系数 1.0 假设，越接近调价日越准）",
@@ -20,7 +20,7 @@
   "oil_source": "yahoo",
   "as_of_note": "Yahoo Finance 最后交易日（通常为今天或上一交易日）。",
   "brent": {
-    "latest": 106.4000015258789,
+    "latest": 106.43000030517578,
     "latest_date": "2026-11-03",
     "avg_recent_10": 112.74,
     "recent_range": [
@@ -35,9 +35,9 @@
     "change_rate_pct": 6.19
   },
   "wti": {
-    "latest": 97.83999633789062,
+    "latest": 98.0199966430664,
     "latest_date": "2026-11-03",
-    "avg_recent_10": 100.47,
+    "avg_recent_10": 100.49,
     "recent_range": [
       "2026-10-21",
       "2026-11-03"
@@ -47,44 +47,44 @@
       "2026-10-07",
       "2026-10-20"
     ],
-    "change_rate_pct": 4.72
+    "change_rate_pct": 4.74
   },
   "fx_usd_cny": 6.665393,
   "fx_updated": "Tue, 03 Nov 2026 00:02:31 +0000",
-  "basket_usd_per_bbl": 106.61,
+  "basket_usd_per_bbl": 106.62,
   "crude_cost_cny_per_ton": 5209.0,
   "estimated_adjustment_range": {
-    "low": 199.0,
-    "high": 369.0
+    "low": 200.0,
+    "high": 370.0
   },
   "delta_per_liter": {
-    "p92": 0.206,
-    "p95": 0.206,
-    "p98": 0.206,
+    "p92": 0.207,
+    "p95": 0.207,
+    "p98": 0.207,
     "d0": 0.239
   },
   "delta_per_liter_range": {
     "p92": [
-      0.144,
-      0.267
+      0.145,
+      0.268
     ],
     "p95": [
-      0.144,
-      0.267
+      0.145,
+      0.268
     ],
     "p98": [
-      0.144,
-      0.267
+      0.145,
+      0.268
     ],
     "d0": [
-      0.167,
-      0.31
+      0.168,
+      0.311
     ]
   },
   "predicted_national_avg": {
-    "p92": 9.145,
-    "p95": 9.743,
-    "p98": 11.033,
+    "p92": 9.146,
+    "p95": 9.744,
+    "p98": 11.034,
     "d0": 8.821
   },
   "predicted_prices": [
