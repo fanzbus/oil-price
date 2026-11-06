@@ -1,9 +1,9 @@
 {
   "status": "estimated",
   "as_of": "2026-11-06",
-  "change_rate_pct": -1.48,
+  "change_rate_pct": -1.5,
   "direction": "下调",
-  "estimated_adjustment_yuan_per_ton": -74.0,
+  "estimated_adjustment_yuan_per_ton": -75.0,
   "market_status": "trading",
   "market_status_note": "交易时段内",
   "confidence": "低（新周期初期滚动近似 + 代理篮子 + 系数 1.0 假设，越接近调价日越准）",
@@ -20,9 +20,9 @@
   "oil_source": "yahoo",
   "as_of_note": "Yahoo Finance 最后交易日（通常为今天或上一交易日）。",
   "brent": {
-    "latest": 97.5199966430664,
+    "latest": 97.29000091552734,
     "latest_date": "2026-11-06",
-    "avg_recent_10": 107.63,
+    "avg_recent_10": 107.61,
     "recent_range": [
       "2026-10-26",
       "2026-11-06"
@@ -32,12 +32,12 @@
       "2026-10-12",
       "2026-10-23"
     ],
-    "change_rate_pct": -1.37
+    "change_rate_pct": -1.39
   },
   "wti": {
-    "latest": 90.19000244140625,
+    "latest": 89.9800033569336,
     "latest_date": "2026-11-06",
-    "avg_recent_10": 97.19,
+    "avg_recent_10": 97.17,
     "recent_range": [
       "2026-10-26",
       "2026-11-06"
@@ -47,37 +47,37 @@
       "2026-10-12",
       "2026-10-23"
     ],
-    "change_rate_pct": -1.59
+    "change_rate_pct": -1.62
   },
   "fx_usd_cny": 6.682525,
   "fx_updated": "Fri, 06 Nov 2026 00:02:31 +0000",
-  "basket_usd_per_bbl": 102.41,
-  "crude_cost_cny_per_ton": 5017.0,
+  "basket_usd_per_bbl": 102.39,
+  "crude_cost_cny_per_ton": 5015.0,
   "estimated_adjustment_range": {
-    "low": -96.0,
+    "low": -98.0,
     "high": -52.0
   },
   "delta_per_liter": {
     "p92": -0.054,
     "p95": -0.054,
     "p98": -0.054,
-    "d0": -0.062
+    "d0": -0.063
   },
   "delta_per_liter_range": {
     "p92": [
-      -0.07,
+      -0.071,
       -0.038
     ],
     "p95": [
-      -0.07,
+      -0.071,
       -0.038
     ],
     "p98": [
-      -0.07,
+      -0.071,
       -0.038
     ],
     "d0": [
-      -0.081,
+      -0.082,
       -0.044
     ]
   },
@@ -85,7 +85,7 @@
     "p92": 8.885,
     "p95": 9.483,
     "p98": 10.773,
-    "d0": 8.52
+    "d0": 8.519
   },
   "predicted_prices": [
     {
