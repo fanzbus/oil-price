@@ -1,9 +1,9 @@
 {
   "status": "estimated",
   "as_of": "2026-11-13",
-  "change_rate_pct": -13.09,
+  "change_rate_pct": -13.05,
   "direction": "下调",
-  "estimated_adjustment_yuan_per_ton": -599.0,
+  "estimated_adjustment_yuan_per_ton": -597.0,
   "market_status": "trading",
   "market_status_note": "交易时段内",
   "confidence": "低（新周期初期滚动近似 + 代理篮子 + 系数 1.0 假设，越接近调价日越准）",
@@ -20,9 +20,9 @@
   "oil_source": "yahoo",
   "as_of_note": "Yahoo Finance 最后交易日（通常为今天或上一交易日）。",
   "brent": {
-    "latest": 95.97000122070312,
+    "latest": 96.33000183105469,
     "latest_date": "2026-11-13",
-    "avg_recent_10": 96.82,
+    "avg_recent_10": 96.86,
     "recent_range": [
       "2026-11-02",
       "2026-11-13"
@@ -32,12 +32,12 @@
       "2026-10-19",
       "2026-10-30"
     ],
-    "change_rate_pct": -14.66
+    "change_rate_pct": -14.63
   },
   "wti": {
-    "latest": 88.7699966430664,
+    "latest": 89.13999938964844,
     "latest_date": "2026-11-13",
-    "avg_recent_10": 89.89,
+    "avg_recent_10": 89.93,
     "recent_range": [
       "2026-11-02",
       "2026-11-13"
@@ -47,45 +47,45 @@
       "2026-10-19",
       "2026-10-30"
     ],
-    "change_rate_pct": -11.51
+    "change_rate_pct": -11.48
   },
   "fx_usd_cny": 6.685071,
   "fx_updated": "Fri, 13 Nov 2026 00:02:31 +0000",
-  "basket_usd_per_bbl": 93.36,
-  "crude_cost_cny_per_ton": 4575.0,
+  "basket_usd_per_bbl": 93.39,
+  "crude_cost_cny_per_ton": 4576.0,
   "estimated_adjustment_range": {
-    "low": -779.0,
-    "high": -419.0
+    "low": -776.0,
+    "high": -418.0
   },
   "delta_per_liter": {
-    "p92": -0.434,
-    "p95": -0.434,
-    "p98": -0.434,
-    "d0": -0.503
+    "p92": -0.433,
+    "p95": -0.433,
+    "p98": -0.433,
+    "d0": -0.502
   },
   "delta_per_liter_range": {
     "p92": [
-      -0.564,
-      -0.304
+      -0.562,
+      -0.303
     ],
     "p95": [
-      -0.564,
-      -0.304
+      -0.562,
+      -0.303
     ],
     "p98": [
-      -0.564,
-      -0.304
+      -0.562,
+      -0.303
     ],
     "d0": [
-      -0.655,
-      -0.352
+      -0.652,
+      -0.351
     ]
   },
   "predicted_national_avg": {
-    "p92": 8.505,
-    "p95": 9.103,
-    "p98": 10.393,
-    "d0": 8.079
+    "p92": 8.506,
+    "p95": 9.104,
+    "p98": 10.394,
+    "d0": 8.08
   },
   "predicted_prices": [
     {
