@@ -6,7 +6,7 @@
   "next_adjustment": null,
   "next_adjustment_label": null,
   "next_adjustment_rolled": false,
-  "adjustment_status": "未知",
+  "adjustment_status": "预计下调",
   "note": "价格为事实数据，仅取数字与调价时间。历史从 2026-10-15 开始积累。",
   "provinces": [
     {
@@ -228,5 +228,5 @@
     }
   ],
   "last_change_at": "2026-11-14T10:39:27+08:00",
-  "last_checked_at": "2026-11-24T19:55:45+08:00"
+  "last_checked_at": "2026-11-25T18:47:56+08:00"
 }
